@@ -26,7 +26,7 @@ const Navbar = () => {
             Projects
           </Link>
           <Link href="/log" className="hover:text-gray-300 transition-colors">
-            Developer's Log
+            Developer&apos;s Log
           </Link>
         </div>
         <div className="md:hidden">
@@ -77,7 +77,7 @@ const Navbar = () => {
             className="block py-2 px-4 text-sm hover:bg-gray-700"
             onClick={() => setIsOpen(false)}
           >
-            Developer's Log
+            Developer&apos;s Log
           </Link>
         </div>
       )}
