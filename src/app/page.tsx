@@ -10,7 +10,8 @@ export default function Home() {
       </h1>
       <p className="mt-4 text-lg sm:text-xl md:text-2xl text-gray-600 max-w-2xl">
         A digital garden where I document my journey through engineering,
-        software, and science. Welcome to my "learning in public" portfolio.
+        software, and science. Welcome to my &quot;learning in public&quot;
+        portfolio.
       </p>
       <Link
         href="/notes"
