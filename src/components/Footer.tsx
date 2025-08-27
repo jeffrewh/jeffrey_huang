@@ -9,11 +9,20 @@ const Footer = () => {
       <div className="container mx-auto text-center text-sm">
         <p>&copy; {currentYear} Jeffrey Huang. All Rights Reserved.</p>
         <div className="flex justify-center space-x-4 mt-2">
-          {/* Replace "#" with your actual links later */}
-          <a href="#" className="hover:text-gray-300 transition-colors">
+          <a
+            href="https://github.com/your-username" // Replace with your actual GitHub profile URL
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-gray-300 transition-colors"
+          >
             GitHub
           </a>
-          <a href="#" className="hover:text-gray-300 transition-colors">
+          <a
+            href="https://linkedin.com/in/your-username" // Replace with your actual LinkedIn profile URL
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-gray-300 transition-colors"
+          >
             LinkedIn
           </a>
         </div>
