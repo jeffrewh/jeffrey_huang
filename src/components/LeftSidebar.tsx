@@ -1,10 +1,38 @@
 // src/components/LeftSidebar.tsx
-import React from "react";
+"use client";
+
 import Link from "next/link";
+import React, { useState, useEffect } from "react";
 
 const LeftSidebar = () => {
+  const [activeSection, setActiveSection] = useState("");
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Add the IDs of your sections here. We'll add 'experience' now.
+      const sections = ["about", "experience", "projects", "contact"];
+      const scrollPosition = window.scrollY + window.innerHeight / 2;
+
+      let currentSection = "";
+      for (const id of sections) {
+        const section = document.getElementById(id);
+        if (section && scrollPosition >= section.offsetTop) {
+          currentSection = id;
+        }
+      }
+      setActiveSection(currentSection);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Call it once on load to set the initial state
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <header className="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-[48%] lg:flex-col lg:justify-between lg:py-24">
+    <header className="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-2/5 lg:flex-col lg:justify-between lg:py-24">
       <div>
         <h1 className="text-4xl font-bold tracking-tight text-slate-200 sm:text-5xl">
           <Link href="/">Jeffrey Huang</Link>
@@ -14,49 +42,103 @@ const LeftSidebar = () => {
         </h2>
         <p className="mt-4 max-w-xs leading-normal">I try to build things.</p>
 
-        {/* Navigation - hidden on mobile, visible on desktop */}
         <nav className="nav hidden lg:block mt-16">
           <ul className="w-max">
             <li>
               <a className="group flex items-center py-3" href="#about">
-                <span className="nav-indicator mr-4 h-px w-8 bg-slate-600 transition-all group-hover:w-16 group-hover:bg-slate-200"></span>
-                <span className="nav-text text-xs font-bold uppercase tracking-widest text-slate-500 group-hover:text-slate-200">
+                <span
+                  className={`nav-indicator mr-4 h-px transition-all group-hover:w-16 group-hover:bg-slate-200 ${
+                    activeSection === "about"
+                      ? "w-16 bg-slate-200"
+                      : "w-8 bg-slate-600"
+                  }`}
+                ></span>
+                <span
+                  className={`nav-text text-xs font-bold uppercase tracking-widest group-hover:text-slate-200 ${
+                    activeSection === "about"
+                      ? "text-slate-200"
+                      : "text-slate-500"
+                  }`}
+                >
                   About
                 </span>
               </a>
             </li>
             <li>
               <a className="group flex items-center py-3" href="#experience">
-                <span className="nav-indicator mr-4 h-px w-8 bg-slate-600 transition-all group-hover:w-16 group-hover:bg-slate-200"></span>
-                <span className="nav-text text-xs font-bold uppercase tracking-widest text-slate-500 group-hover:text-slate-200">
+                <span
+                  className={`nav-indicator mr-4 h-px transition-all group-hover:w-16 group-hover:bg-slate-200 ${
+                    activeSection === "experience"
+                      ? "w-16 bg-slate-200"
+                      : "w-8 bg-slate-600"
+                  }`}
+                ></span>
+                <span
+                  className={`nav-text text-xs font-bold uppercase tracking-widest group-hover:text-slate-200 ${
+                    activeSection === "experience"
+                      ? "text-slate-200"
+                      : "text-slate-500"
+                  }`}
+                >
                   Experience
                 </span>
               </a>
             </li>
             <li>
               <a className="group flex items-center py-3" href="#projects">
-                <span className="nav-indicator mr-4 h-px w-8 bg-slate-600 transition-all group-hover:w-16 group-hover:bg-slate-200"></span>
-                <span className="nav-text text-xs font-bold uppercase tracking-widest text-slate-500 group-hover:text-slate-200">
+                <span
+                  className={`nav-indicator mr-4 h-px transition-all group-hover:w-16 group-hover:bg-slate-200 ${
+                    activeSection === "projects"
+                      ? "w-16 bg-slate-200"
+                      : "w-8 bg-slate-600"
+                  }`}
+                ></span>
+                <span
+                  className={`nav-text text-xs font-bold uppercase tracking-widest group-hover:text-slate-200 ${
+                    activeSection === "projects"
+                      ? "text-slate-200"
+                      : "text-slate-500"
+                  }`}
+                >
                   Projects
                 </span>
               </a>
             </li>
-            {/* Add more links here later for Contact, Dev Log etc. */}
+            <li>
+              <a className="group flex items-center py-3" href="#contact">
+                <span
+                  className={`nav-indicator mr-4 h-px transition-all group-hover:w-16 group-hover:bg-slate-200 ${
+                    activeSection === "contact"
+                      ? "w-16 bg-slate-200"
+                      : "w-8 bg-slate-600"
+                  }`}
+                ></span>
+                <span
+                  className={`nav-text text-xs font-bold uppercase tracking-widest group-hover:text-slate-200 ${
+                    activeSection === "contact"
+                      ? "text-slate-200"
+                      : "text-slate-500"
+                  }`}
+                >
+                  Contact Me
+                </span>
+              </a>
+            </li>
           </ul>
         </nav>
       </div>
-
-      {/* Social Media Links */}
-      <ul className="ml-1 mt-8 flex items-center">
+      <ul className="ml-1 mt-8 flex items-center" aria-label="Social media">
         <li className="mr-5 shrink-0">
           <a
-            href="#"
+            href="https://github.com/jeffrewh"
             target="_blank"
             rel="noreferrer noopener"
+            aria-label="GitHub (opens in a new tab)"
+            title="GitHub"
             className="block hover:text-slate-200"
           >
-            {/* Placeholder for GitHub Icon */}
             <span className="sr-only">GitHub</span>
+            {/* GitHub SVG Icon */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -70,13 +152,15 @@ const LeftSidebar = () => {
         </li>
         <li className="mr-5 shrink-0">
           <a
-            href="#"
+            href="https://www.linkedin.com/in/jeffrewh/"
             target="_blank"
             rel="noreferrer noopener"
+            aria-label="LinkedIn (opens in a new tab)"
+            title="LinkedIn"
             className="block hover:text-slate-200"
           >
-            {/* Placeholder for LinkedIn Icon */}
             <span className="sr-only">LinkedIn</span>
+            {/* LinkedIn SVG Icon */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"

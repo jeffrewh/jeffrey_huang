@@ -21,7 +21,7 @@ const Spotlight = () => {
 
   return (
     <div
-      className="spotlight pointer-events-none hidden lg:block"
+      className="spotlight pointer-events-none hidden lg:block z-30"
       style={{
         background: `radial-gradient(600px at ${position.x}px ${position.y}px, rgba(29, 78, 216, 0.15), transparent 80%)`
       }}

@@ -1,9 +1,10 @@
 import LeftSidebar from "@/components/LeftSidebar";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
     <div className="mx-auto min-h-screen max-w-screen-xl px-6 py-12 md:px-12 md:py-16 lg:px-24 lg:py-0">
-      <div className="lg:flex lg:justify-between lg:gap-4">
+      <div className="lg:flex lg:justify-between lg:gap-24">
         <LeftSidebar />
 
         {/* The width is set on the parent columns, so this main tag just needs to fill its container. */}
@@ -94,7 +95,7 @@ export default function Home() {
                     <div className="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-md transition motion-reduce:transition-none lg:-inset-x-6 lg:block lg:group-hover:bg-slate-800/50"></div>
 
                     <header className="z-10 mb-2 mt-1 text-xs font-semibold uppercase tracking-wide text-slate-500 sm:col-span-2">
-                      2024 — Present
+                      Jan 2024 — Present
                     </header>
 
                     <div className="z-10 sm:col-span-6">
@@ -108,7 +109,7 @@ export default function Home() {
                           {/* The hidden span you noticed is what makes the whole card clickable on desktop */}
                           <span className="absolute -inset-x-4 -inset-y-2.5 hidden rounded md:-inset-x-6 md:-inset-y-4 lg:block"></span>
                           <span>
-                            Systems Engineer II ·
+                            Systems Engineer ·&nbsp;
                             <span className="inline-block">
                               Honeywell Aerospace
                               <svg
@@ -129,10 +130,10 @@ export default function Home() {
                         </a>
                       </h3>
                       <p className="mt-2 text-sm leading-normal">
-                        Facilitate and integrate complex subteam developments as
-                        they occur. Author critical documents (proposals, SOWs,
-                        ATPs,etc), provide export compliance guidance, and
-                        support test campaigns and other project/IMS milestones.
+                        Facilitate and integrate subteam developments as they
+                        occur. Author critical documents (proposals, SOWs, ATPs,
+                        etc), provide export compliance guidance, and support
+                        test campaigns and other project/IMS milestones.
                       </p>
                       <ul className="mt-2 flex flex-wrap">
                         <li className="mr-1.5 mt-2">
@@ -186,23 +187,23 @@ export default function Home() {
                     <div className="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-md transition motion-reduce:transition-none lg:-inset-x-6 lg:block lg:group-hover:bg-slate-800/50"></div>
 
                     <header className="z-10 mb-2 mt-1 text-xs font-semibold uppercase tracking-wide text-slate-500 sm:col-span-2">
-                      2024 — Present
+                      Nov 2022 — 2024
                     </header>
 
                     <div className="z-10 sm:col-span-6">
                       <h3 className="font-medium leading-snug text-slate-200">
                         <a
                           className="inline-flex items-baseline font-medium leading-tight text-slate-200 hover:text-teal-300 focus-visible:text-teal-300 group/link text-base"
-                          href="https://www.klaviyo.com"
+                          href="https://aerospace.honeywell.com/"
                           target="_blank"
                           rel="noreferrer noopener"
                         >
                           {/* The hidden span you noticed is what makes the whole card clickable on desktop */}
                           <span className="absolute -inset-x-4 -inset-y-2.5 hidden rounded md:-inset-x-6 md:-inset-y-4 lg:block"></span>
                           <span>
-                            Senior Frontend Engineer ·
+                            Advanced Manufacturing Engineer ·&nbsp;
                             <span className="inline-block">
-                              Klaviyo
+                              Honeywell Aerospace
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 20 20"
@@ -229,12 +230,103 @@ export default function Home() {
                       <ul className="mt-2 flex flex-wrap">
                         <li className="mr-1.5 mt-2">
                           <div className="flex items-center rounded-full bg-teal-300/10 px-3 py-1 text-xs font-medium leading-5 text-teal-300">
-                            TypeScript
+                            DfM/DfX
                           </div>
                         </li>
                         <li className="mr-1.5 mt-2">
                           <div className="flex items-center rounded-full bg-teal-300/10 px-3 py-1 text-xs font-medium leading-5 text-teal-300">
-                            React
+                            CI
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                <li className="mb-12">
+                  <div className="group relative grid pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/list:opacity-50">
+                    {/* Invisible full-card link overlay */}
+                    <div className="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-md transition motion-reduce:transition-none lg:-inset-x-6 lg:block lg:group-hover:bg-slate-800/50"></div>
+
+                    <header className="z-10 mb-2 mt-1 text-xs font-semibold uppercase tracking-wide text-slate-500 sm:col-span-2">
+                      Apr — Nov 2022
+                    </header>
+
+                    <div className="z-10 sm:col-span-6">
+                      <h3 className="font-medium leading-snug text-slate-200">
+                        <a
+                          className="inline-flex items-baseline font-medium leading-tight text-slate-200 hover:text-teal-300 focus-visible:text-teal-300 group/link text-base"
+                          href="https://aerospace.honeywell.com/"
+                          target="_blank"
+                          rel="noreferrer noopener"
+                        >
+                          {/* The hidden span you noticed is what makes the whole card clickable on desktop */}
+                          <span className="absolute -inset-x-4 -inset-y-2.5 hidden rounded md:-inset-x-6 md:-inset-y-4 lg:block"></span>
+                          <span>
+                            Manufacturing Quality Engineer ·&nbsp;
+                            <span className="inline-block">
+                              Honeywell Aerospace
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                className="inline-block h-4 w-4 shrink-0 transition-transform group-hover/link:-translate-y-1 group-hover/link:translate-x-1 motion-reduce:transition-none ml-1 translate-y-px"
+                                aria-hidden="true"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z"
+                                  clipRule="evenodd"
+                                ></path>
+                              </svg>
+                            </span>
+                          </span>
+                        </a>
+                      </h3>
+                      <p className="mt-2 text-sm leading-normal">
+                        Facilitate and integrate subteam developments as they
+                        occur. Author critical documents (proposals, SOWs, ATPs,
+                        etc), provide export compliance guidance, and support
+                        test campaigns and other project/IMS milestones.
+                      </p>
+                      <ul className="mt-2 flex flex-wrap">
+                        <li className="mr-1.5 mt-2">
+                          <div className="flex items-center rounded-full bg-teal-300/10 px-3 py-1 text-xs font-medium leading-5 text-teal-300">
+                            MBSE
+                          </div>
+                        </li>
+                        <li className="mr-1.5 mt-2">
+                          <div className="flex items-center rounded-full bg-teal-300/10 px-3 py-1 text-xs font-medium leading-5 text-teal-300">
+                            V&V
+                          </div>
+                        </li>
+                        <li className="mr-1.5 mt-2">
+                          <div className="flex items-center rounded-full bg-teal-300/10 px-3 py-1 text-xs font-medium leading-5 text-teal-300">
+                            Dev. Testing
+                          </div>
+                        </li>
+                        <li className="mr-1.5 mt-2">
+                          <div className="flex items-center rounded-full bg-teal-300/10 px-3 py-1 text-xs font-medium leading-5 text-teal-300">
+                            Qual. Testing
+                          </div>
+                        </li>
+                        <li className="mr-1.5 mt-2">
+                          <div className="flex items-center rounded-full bg-teal-300/10 px-3 py-1 text-xs font-medium leading-5 text-teal-300">
+                            HIL
+                          </div>
+                        </li>
+                        <li className="mr-1.5 mt-2">
+                          <div className="flex items-center rounded-full bg-teal-300/10 px-3 py-1 text-xs font-medium leading-5 text-teal-300">
+                            SIL
+                          </div>
+                        </li>
+                        <li className="mr-1.5 mt-2">
+                          <div className="flex items-center rounded-full bg-teal-300/10 px-3 py-1 text-xs font-medium leading-5 text-teal-300">
+                            Embedded Systems
+                          </div>
+                        </li>
+                        <li className="mr-1.5 mt-2">
+                          <div className="flex items-center rounded-full bg-teal-300/10 px-3 py-1 text-xs font-medium leading-5 text-teal-300">
+                            Project Management
                           </div>
                         </li>
                       </ul>
@@ -261,7 +353,36 @@ export default function Home() {
             </div>
           </section>
 
-          {/* ... and so on for Contact, etc. */}
+          {/* ===== CONTACT SECTION (Refined) ===== */}
+          <section
+            id="contact"
+            className="mb-16 scroll-mt-16 md:mb-24 lg:mb-36 lg:scroll-mt-24"
+          >
+            <div className="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-slate-900/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
+              <h2 className="text-sm font-bold uppercase tracking-widest text-slate-200 lg:sr-only">
+                Contact
+              </h2>
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold text-slate-200">
+                Get In Touch
+              </h2>
+              <p className="text-base text-slate-400 leading-relaxed mt-4">
+                My inbox is always open. Whether you have a question, an
+                opportunity, or just want to say hi, I’ll do my best to get back
+                to you!
+              </p>
+              {/* This button is now smaller */}
+              <a
+                href="mailto:your.email@gmail.com"
+                className="group inline-block mt-8 px-4 py-2 border border-teal-300 text-teal-300 rounded-md font-mono
+                 text-sm hover:bg-teal-300 hover:bg-opacity-10 transition-all duration-300"
+              >
+                Say Hello
+              </a>
+            </div>
+          </section>
+          <Footer />
         </main>
       </div>
     </div>
