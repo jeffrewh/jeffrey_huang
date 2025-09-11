@@ -400,6 +400,30 @@ export default function Home() {
           <Footer />
         </main>
       </div>
+      {/* ADD THE DEV LOG BUTTON HERE */}
+      <div className="fixed bottom-0 right-0 p-4 md:p-6 lg:p-8 z-40">
+        <a
+          href="/log"
+          className="group inline-flex items-center justify-center rounded-full h-14 w-14 bg-slate-800/75 backdrop-blur 
+                                  hover:bg-teal-400/20 transition-colors"
+          aria-label="View Revision History"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="h-6 w-6 text-slate-400 group-hover:text-teal-300 transition-colors"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+            />
+          </svg>
+        </a>
+      </div>
     </div>
   );
 }
