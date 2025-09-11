@@ -232,28 +232,171 @@ export default function Home() {
                   </div>
                 </li>
               </ol>
+              {/* Inside <section id="experience">, after the </ol> */}
+              <div className="mt-12">
+                <a
+                  className="inline-flex items-baseline font-medium leading-tight text-slate-200 hover:text-teal-300 focus-visible:text-teal-300 group/link text-base"
+                  href="/resume.pdf" // Update this path when you have a resume PDF
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  <span>
+                    View Full{" "}
+                    <span className="inline-block">
+                      Résumé
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        className="inline-block h-4 w-4 shrink-0 transition-transform group-hover/link:-translate-y-1 group-hover/link:translate-x-1 motion-reduce:transition-none ml-1 translate-y-px"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z"
+                          clipRule="evenodd"
+                        ></path>
+                      </svg>
+                    </span>
+                  </span>
+                </a>
+              </div>
             </div>
           </section>
-
-          {/* ===== CONTACT SECTION ===== */}
+          {/* ===== PROJECTS SECTION ===== */}
+          <section
+            id="projects"
+            className="mb-16 scroll-mt-16 md:mb-24 lg:mb-36 lg:scroll-mt-24"
+          >
+            {/* ... Sticky Header for Projects ... */}
+            <div>
+              <ul className="group/list">
+                {/* === RASPBERRY PI PROJECT CARD === */}
+                <li className="mb-12">
+                  <div className="group relative grid gap-4 pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/list:opacity-50">
+                    <div className="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-md transition motion-reduce:transition-none lg:-inset-x-6 lg:block lg:group-hover:bg-slate-800/50"></div>
+                    <div className="z-10 sm:order-2 sm:col-span-6">
+                      <h3 className="font-medium leading-snug text-slate-200">
+                        {/* No link needed for a private project */}
+                        <span className="text-slate-200 group/link text-base">
+                          Web Automation & Scraping Tool
+                        </span>
+                      </h3>
+                      <p className="mt-2 text-sm leading-relaxed text-slate-400">
+                        Developed a Python-based automation script running on a
+                        Raspberry Pi to perform scheduled data scraping and web
+                        bottling tasks. The project involved creating a headless
+                        browser instance, managing user sessions, and parsing
+                        complex HTML structures to extract and store data.
+                      </p>
+                      <ul
+                        className="mt-2 flex flex-wrap"
+                        aria-label="Technologies used:"
+                      >
+                        <li className="mr-1.5 mt-2">
+                          <div className="flex items-center rounded-full bg-teal-400/10 px-3 py-1 text-xs font-medium leading-5 text-teal-300 ">
+                            Python
+                          </div>
+                        </li>
+                        <li className="mr-1.5 mt-2">
+                          <div className="flex items-center rounded-full bg-teal-400/10 px-3 py-1 text-xs font-medium leading-5 text-teal-300 ">
+                            Pi OS
+                          </div>
+                        </li>
+                        <li className="mr-1.5 mt-2">
+                          <div className="flex items-center rounded-full bg-teal-400/10 px-3 py-1 text-xs font-medium leading-5 text-teal-300 ">
+                            Playwright
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    {/* Use a representative image instead of a screenshot */}
+                    <img
+                      alt="A graphic representing web automation"
+                      loading="lazy"
+                      width="200"
+                      height="48"
+                      decoding="async"
+                      src="/path/to/your/representative-image.png"
+                      className="rounded border-2 border-slate-200/10 transition group-hover:border-slate-200/30 sm:order-1 sm:col-span-2 sm:translate-y-1"
+                    />
+                  </div>
+                </li>
+              </ul>
+              {/* Inside <section id="projects">, after the project list */}
+              <div className="mt-12">
+                <a
+                  className="inline-flex items-baseline font-medium leading-tight text-slate-200 hover:text-teal-300 focus-visible:text-teal-300 group/link text-base"
+                  href="/archive" // This will link to a future archive page
+                  aria-label="View Full Project Archive"
+                >
+                  <span>
+                    View Full Project{" "}
+                    <span className="whitespace-nowrap">
+                      Archive
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        className="ml-1 inline-block h-4 w-4 shrink-0 -translate-y-px transition-transform group-hover:translate-x-2 motion-reduce:transition-none"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z"
+                          clipRule="evenodd"
+                        ></path>
+                      </svg>
+                    </span>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </section>
+          {/* ===== CONTACT SECTION (Refined) ===== */}
           <section
             id="contact"
-            className="mb-16 scroll-mt-16 text-center md:mb-24 lg:mb-36 lg:scroll-mt-24"
+            className="mb-16 scroll-mt-16 md:mb-24 lg:mb-36 lg:scroll-mt-24"
           >
-            <h2 className="text-3xl font-bold text-slate-200">Get In Touch</h2>
-            <p className="mt-4 text-base text-slate-400 leading-relaxed">
-              My inbox is always open. Whether you have a question, an
-              opportunity, or just want to say hi, I’ll do my best to get back
-              to you!
-            </p>
-            <a
-              href="mailto:your.email@gmail.com"
-              className="group inline-block mt-8 px-4 py-2 border border-teal-300 text-teal-300 rounded-md font-mono text-sm hover:bg-teal-300 hover:bg-opacity-10 transition-all duration-300"
-            >
-              Say Hello
-            </a>
+            <div className="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-slate-900/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
+              <h2 className="text-sm font-bold uppercase tracking-widest text-slate-200 lg:sr-only">
+                Contact
+              </h2>
+            </div>
+            <div>
+              <p className="max-w-md text-sm text-slate-500">
+                My inbox is always open. Whether you have a question, an
+                opportunity, or just want to say hi, I’ll do my best to get back
+                to you!
+              </p>
+              <div className="mt-8">
+                <a
+                  className="inline-flex items-baseline font-medium leading-tight text-slate-200 hover:text-teal-300 focus-visible:text-teal-300 group/link text-base"
+                  href="mailto:your.email@gmail.com"
+                >
+                  <span>
+                    Get in{" "}
+                    <span className="whitespace-nowrap">
+                      Touch
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        className="ml-1 inline-block h-4 w-4 shrink-0 -translate-y-px transition-transform group-hover:translate-x-2 motion-reduce:transition-none"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z"
+                          clipRule="evenodd"
+                        ></path>
+                      </svg>
+                    </span>
+                  </span>
+                </a>
+              </div>
+            </div>
           </section>
-
           <Footer />
         </main>
       </div>

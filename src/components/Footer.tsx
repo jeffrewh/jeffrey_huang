@@ -3,7 +3,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="max-w-md pb-16 text-sm text-slate-500 text-center mx-auto">
+    <footer className="max-w-md text-sm text-slate-500">
       <p>
         Loosely designed in{" "}
         <a
