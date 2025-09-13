@@ -282,7 +282,7 @@ export default function Home() {
                           Web Automation & Scraping Tool
                         </span>
                       </h3>
-                      <p className="mt-2 text-sm leading-relaxed text-slate-400">
+                      <p className="mt-2 text-base text-slate-400 leading-relaxed">
                         Developed a Python-based automation script running on a
                         Raspberry Pi to perform scheduled data scraping and web
                         bottling tasks. The project involved creating a headless
@@ -317,7 +317,7 @@ export default function Home() {
                       width="200"
                       height="48"
                       decoding="async"
-                      src="/path/to/your/representative-image.png"
+                      src="../../../../raspberry_pi_icon.png"
                       className="rounded border-2 border-slate-200/10 transition group-hover:border-slate-200/30 sm:order-1 sm:col-span-2 sm:translate-y-1"
                     />
                   </div>
