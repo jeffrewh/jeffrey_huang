@@ -323,7 +323,7 @@ export default function Home() {
                       width="200"
                       height="48"
                       decoding="async"
-                      src="../../../../raspberry_pi_icon.png"
+                      src="/raspberry_pi_icon.png"
                       className="rounded border-2 border-slate-200/10 transition group-hover:border-slate-200/30 sm:order-1 sm:col-span-2 sm:translate-y-1"
                     />
                   </div>
