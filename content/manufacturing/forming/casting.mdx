@@ -1,0 +1,85 @@
+---
+title: "Casting Processes"
+description: "A detailed look at casting, the process of forming objects by solidifying molten metal in a mold. Covers process physics, microstructure, and a comparison of major methods."
+---
+
+import { GlossaryTerm } from "../../components/GlossaryTerm";
+import { SandCastingDiagram } from "../../components/diagrams/SandCastingDiagram";
+import { Quiz } from "../../components/Quiz";
+
+# Casting Processes
+
+[cite_start]**Casting** is a foundational manufacturing process where a molten material, usually metal, is poured into a hollow mold of a desired shape and allowed to cool and solidify [cite: 5628-5629]. The solidified part, known as the casting, is then ejected or broken out of the mold. [cite_start]It is one of the most versatile manufacturing methods, capable of producing parts with incredible complexity and a vast range of sizes, from a small ring to a massive ship propeller [cite: 5630-5636].
+
+---
+
+## The Core Casting Workflow
+
+[cite_start]While there are many different types of casting, they all follow the same fundamental sequence [cite: 5720-5726]:
+
+1.  **Pattern & Mold Making**: A mold is created that contains a cavity in the shape of the desired part. For parts with internal features, a separate piece called a **core** is used to form that space.
+2.  **Melting & Pouring**: The chosen metal is melted in a furnace and then poured into the mold's gating system.
+3.  **Solidification**: The molten metal cools and solidifies within the mold, taking on the shape of the cavity.
+4.  **Removal & Finishing**: The solidified part is removed from the mold. The excess material from the gating system is cut off, and the part may undergo cleaning, inspection, or secondary machining.
+
+<SandCastingDiagram />
+
+<GlossaryTerm term="Riser">
+  [cite_start]A **riser** is a reservoir of molten metal built into the
+  mold[cite: 5734]. As the metal in the main cavity cools and shrinks, the riser
+  feeds additional molten metal into the part, preventing the formation of voids
+  or shrinkage cavities. [cite_start]The riser is designed to be the last part
+  of the system to solidify[cite: 5734].
+</GlossaryTerm>
+
+---
+
+## Process Physics: Flow and Cooling
+
+The success of a casting operation is governed by two key physical phenomena: fluidity and heat transfer.
+
+### Fluidity
+
+[cite_start]**Fluidity** is the ability of the molten metal to flow and fill the mold's intricate details before it freezes [cite: 5881-5883]. It's a critical property influenced by:
+
+- **Temperature**: Higher temperatures above the melting point (**superheat**) increase fluidity.
+- **Viscosity & Surface Tension**: Lower viscosity and surface tension allow the metal to flow more easily into thin sections.
+- [cite_start]**Gating System Design**: A well-designed system ensures laminar (smooth) flow to prevent air bubbles and oxides from being trapped in the final part [cite: 5884-5886].
+
+### Solidification Time & Chvorinov's Rule
+
+The time it takes for a casting to solidify is a primary driver of the production rate and the final microstructure of the part. This is predicted by **Chvorinov's Rule**:
+
+$$ t\_{solidify} = C \cdot \left(\frac{V}{A}\right)^n $$
+
+[cite_start]Where $V$ is the volume of the casting and $A$ is its surface area [cite: 5932-5936]. The key takeaway is that parts with a higher **volume-to-surface-area ratio** (i.e., thicker, more compact sections) cool more slowly. The mold constant, $C$, and exponent, $n$, depend heavily on the mold material (e.g., insulating sand vs. conductive steel).
+
+### Shrinkage
+
+[cite_start]Nearly all metals shrink as they cool and solidify, and this is the most common cause of defects in castings [cite: 6069-6076]. Shrinkage occurs in three stages:
+
+1.  **Liquid Contraction**: Cooling of the liquid metal before solidification.
+2.  **Solidification Shrinkage**: The phase change from liquid to solid causes a significant volume decrease. This is the primary shrinkage compensated for by the riser.
+3.  **Solid Thermal Contraction**: The solid part continues to shrink as it cools to room temperature. This is compensated for by making the mold cavity slightly oversized.
+
+---
+
+## Microstructure of Cast Parts
+
+The cooling rate during solidification directly controls the grain structure of the final part, which in turn determines its mechanical properties like strength and ductility.
+
+- [cite_start]**Fast Cooling** (e.g., against a cold metal mold wall) creates a **chill zone** of very fine, equiaxed (uniform) grains [cite: 6016-6017].
+- [cite_start]**Directional Cooling** causes **columnar grains** to grow perpendicular to the mold wall, toward the hotter center of the casting[cite: 6014].
+- [cite_start]**Slow Cooling** (in the center of a thick section) creates a large, equiaxed grain structure [cite: 6012-6013].
+
+According to the **Hall-Petch relationship**, smaller grains result in a stronger material. [cite_start]Therefore, the faster a casting solidifies, the stronger it tends to be [cite: 6024-6031].
+
+---
+
+## Comparison of Major Casting Processes
+
+| Process                | Mold Type            | Key Characteristics                                                                                                  | Common Applications                                                        |
+| :--------------------- | :------------------- | :------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------- |
+| **Sand Casting**       | Expendable (Sand)    | Low tooling cost; good for very large parts; rough surface finish.                                                   | Engine blocks, machine tool bases, large pipes.                            |
+| **Die Casting**        | Permanent (Steel)    | High tooling cost; excellent for high-volume production of non-ferrous parts; high detail and good finish.           | Toy cars, automotive parts (engine components, housings), faucet fixtures. |
+| **Investment Casting** | Expendable (Ceramic) | Labor-intensive; excellent for very complex, high-precision parts with smooth surfaces; works with high-temp alloys. | Jewelry, dental crowns, jet engine turbine blades.                         |

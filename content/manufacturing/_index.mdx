@@ -1,0 +1,91 @@
+---
+title: "Introduction to Manufacturing & Industrial Engineering"
+description: "A foundational overview of the core principles, goals, and challenges in manufacturing and industrial engineering."
+---
+
+import { FourPillarsDiagram } from "../../components/diagrams/FourPillarsDiagram";
+import { ProcessModelDiagram } from "../../components/diagrams/ProcessModelDiagram";
+import { GlossaryTerm } from "../../components/GlossaryTerm";
+import { Quiz } from "../../components/Quiz";
+
+# Introduction to Manufacturing & Industrial Engineering
+
+**Manufacturing** is the transformation of material into something useful and portable 3404 At its core, it's about adding value by changing a material's shape, properties, or combining it with other components. **Industrial Engineering** focuses on optimizing these complex processes to be as efficient and effective as possible.
+
+An effective way to think about this is like baking cookies. You start with raw materials (flour, sugar), apply a process (mixing, heating), and end with a finished product. Industrial engineering is like figuring out the best recipe, oven temperature, and kitchen layout to make the most delicious cookies as quickly and cheaply as possible.
+
+---
+
+## The Four Pillars of Manufacturing
+
+Every manufacturing process is governed by a fundamental trade-off between four key goals 6360 Understanding these pillars is crucial to analyzing and improving any production system 6360-6369
+
+<FourPillarsDiagram />
+
+1.  **Quality**: This is the degree to which a manufactured part conforms to its specifications 6361-6362 High quality means making the right part, every time. A major focus of **process control** is maximizing quality by minimizing variability 6379-6382
+2.  **Rate**: Also known as **throughput**, this is the speed at which parts are produced 6363-6364, 3668-3670 The goal is to produce parts fast enough to meet demand 6363-6364
+3.  **Cost**: This is the total expense required to produce a part 6365-6367 The objective is to manufacture at a competitive cost to ensure profitability 6365-6367
+4.  **Flexibility**: This is the ability to change what is being produced quickly and without significant penalties to cost or quality 6368-6371 A flexible factory can adapt to changing customer demands or new product designs 6368-6371
+
+---
+
+## The Central Challenge: Managing Variation
+
+If every process worked perfectly every time, manufacturing would be simple. However, in reality, all processes are inherently variable 6337, 6503 The central challenge of manufacturing engineering is to understand, manage, and minimize this **variation** 6337-6343
+
+Variation refers to the differences, however small, between individual parts that are supposed to be identical. There are two main types:
+
+<GlossaryTerm term="Deterministic Variation">
+  This is variation caused by identifiable, **assignable sources** 6520, 7506
+  For example, if a cutting tool slowly wears down, the parts it produces will
+  gradually change in dimension. This is a predictable, or *deterministic*,
+  effect. Other examples include changes in material batches or a shift in
+  cooling time 6519-6521
+</GlossaryTerm>
+
+<GlossaryTerm term="Random Variation">
+  This is variation that results from the natural, inherent randomness in a
+  process 6522 It's the "noise" that remains even when all deterministic causes
+  are controlled 6522-6526 This is often called **"common cause" variation**
+  6907
+</GlossaryTerm>
+
+The HP printer case study is a classic example: HP initially assumed their assembly machines would perform identically every cycle, but small, random delays and failures caused the unbuffered system's production rate to be far lower than predicted 3197-3203 Adding small **buffers** decoupled the machines, absorbing the random variation from one machine so it didn't instantly stop the entire line 3215, 3235-3239
+
+---
+
+## A General Model of a Manufacturing Process
+
+We can think of any manufacturing process as a system with three core components that are sources of variation 6586, 6628]:
+
+- **Equipment**: The machines and tools used (e.g., an injection molding machine, a lathe) 6629
+- **Material**: The workpiece being transformed (e.g., plastic pellets, a metal bar) 6636
+- **Operator**: The person or automated system controlling the process 6647
+
+<ProcessModelDiagram />
+
+Understanding how these components interact and contribute to variation is the first step toward improving any manufacturing outcome 6595
+
+---
+
+### Check Your Understanding
+
+<Quiz
+  questions={[
+    {
+      question: "What are the four primary goals of manufacturing?",
+      options: [
+        "Speed, Power, Price, Style",
+        "Quality, Rate, Cost, Flexibility",
+        "Materials, Machines, People, Products"
+      ],
+      answer: "Quality, Rate, Cost, Flexibility"
+    },
+    {
+      question:
+        "A tool wearing down over time is an example of what kind of variation?",
+      options: ["Random", "Deterministic", "Systemic"],
+      answer: "Deterministic"
+    }
+  ]}
+/>
