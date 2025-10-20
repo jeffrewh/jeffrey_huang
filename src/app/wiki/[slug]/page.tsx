@@ -1,269 +1,55 @@
 // src/app/wiki/[slug]/page.tsx
-import { MDXRemote } from "next-mdx-remote/rsc";
 import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
 import Link from "next/link";
+import Image from "next/image"; // <--- Imported Next.js Image component
+import { MDXRemote } from "next-mdx-remote/rsc";
 import React from "react"; // Explicitly import React for JSX types
-// ... other imports ...
-import { FourPillarsDiagram } from "@/components/diagrams/FourPillarsDiagram"; // Adjust path if needed
-import { ProcessModelDiagram } from "@/components/diagrams/ProcessModelDiagram"; // Adjust path if needed
-import { GlossaryTerm } from "@/components/GlossaryTerm"; // Adjust path if needed
+import clsx from "clsx"; // For conditional class names
 
-// ... rest of the file ...
+// *** IMPORTS FOR CUSTOM COMPONENTS ***
+import { Quiz, QuizQuestion } from "@/components/Quiz"; // Import Quiz and its interface
+import { GlossaryTerm } from "@/components/GlossaryTerm";
+import { FourPillarsDiagram } from "@/components/diagrams/FourPillarsDiagram";
+import { ProcessModelDiagram } from "@/components/diagrams/ProcessModelDiagram";
 
+// Make sure these component stubs actually exist at the specified paths:
+// src/components/Quiz.tsx
+// src/components/GlossaryTerm.tsx
+// src/components/diagrams/FourPillarsDiagram.tsx
+// src/components/diagrams/ProcessModelDiagram.tsx
+
+// Define the expected props for the page component
 interface WikiPageProps {
   params: {
     slug: string[]; // slug will be an array for nested routes, e.g., ['manufacturing', 'dfm']
   };
 }
 
+// Define the expected frontmatter structure for your MDX files
 interface WikiFrontmatter {
-  title?: string;
-  theme?: string;
-  // Add any other properties you expect in your MDX frontmatter here, e.g.:
-  // date?: string;
-  // author?: string;
+  title: string;
+  description?: string; // Optional description
+  theme?: string; // Optional theme (e.g., for styling)
+  date?: string;
+  author?: string;
+  // Add any other properties you expect in your MDX frontmatter here
 }
 
-// Define types for default HTML elements to avoid 'any'
-interface HeadingProps {
+// CustomComponentProps interface to allow for generic HTML attributes on MDX components
+// Using `unknown` for index signature to avoid `unexpected any` error
+interface CustomComponentProps {
+  [key: string]: unknown; // Changed `any` to `unknown`
   children?: React.ReactNode;
-  id?: string;
-  className?: string; // Allow className for custom styling
-}
-interface ParagraphProps {
-  children?: React.ReactNode;
-  className?: string;
-}
-interface LinkComponentProps {
-  // Renamed to avoid conflict with Next's Link if used directly
-  href: string;
-  children?: React.ReactNode;
-  className?: string;
-}
-interface ListProps {
-  children?: React.ReactNode;
-  className?: string;
-}
-interface ListItemProps {
-  children?: React.ReactNode;
-  className?: string;
 }
 
-// Define a more explicit generic type for custom components
-interface CustomComponentProps extends React.HTMLAttributes<HTMLElement> {
-  children?: React.ReactNode;
-  // If you have specific props for ALL custom MDX components, define them here.
-  // Otherwise, individual custom components will infer their specific props.
-  // We extend HTMLElement attributes to cover common things like 'id', 'className', etc.
-}
-
-// Somewhere near your other interfaces (e.g., above WikiFrontmatter)
-// ADD THIS INTERFACE
-interface QuizQuestion {
-  question: string;
-  options: string[]; // Or 'string[]' if options are strings
-  answer: string;
-}
-
-const components = {
-  // Custom components (like Quiz, GlossaryLink) still need their specific types
-  // Using CustomComponentProps here covers basic HTML attributes that MDX might pass.
-  Quiz: (
-    props: CustomComponentProps & { id: string; questions?: QuizQuestion[] }
-  ) => {
-    if (props.questions) {
-      return (
-        <div className="p-4 bg-slate-700 rounded-md my-4">
-          <p className="font-bold text-xl text-slate-200 mb-4">
-            Quiz for ID: {props.id}
-          </p>
-          {props.questions.map(
-            (
-              q: QuizQuestion,
-              i: number // Now uses QuizQuestion
-            ) => (
-              <div key={i} className="mb-4">
-                <p className="text-lg text-slate-300 mb-2">
-                  {i + 1}. {q.question}
-                </p>
-                {/* You might want to render options here eventually */}
-                {/* For now, just showing the question */}
-              </div>
-            )
-          )}
-        </div>
-      );
-    }
-    return (
-      <div className="p-4 bg-slate-700 rounded-md my-4">
-        Interactive Quiz for ID: {props.id} (No questions defined in MDX)
-      </div>
-    );
-  },
-  GlossaryLink: (props: CustomComponentProps & { term: string }) => (
-    <Link
-      href={`/wiki/glossary#${props.term.toLowerCase().replace(/\s/g, "-")}`}
-      className="text-teal-300 hover:underline"
-    >
-      {props.term}
-    </Link>
-  ),
-  FourPillarsDiagram: (props: CustomComponentProps) => (
-    <FourPillarsDiagram {...props} />
-  ), // Add this
-  ProcessModelDiagram: (props: CustomComponentProps) => (
-    <ProcessModelDiagram {...props} />
-  ), // Add this
-  GlossaryTerm: (
-    props: CustomComponentProps & { term: string; children: React.ReactNode }
-  ) => <GlossaryTerm {...props} />, // Add this
-  // ... rest of your existing h1, p, a, etc. overrides ...
-  h1: (props: HeadingProps) => (
-    <h1 className="text-3xl font-bold text-slate-200 mt-8 mb-4" {...props} />
-  ),
-  h2: (props: HeadingProps) => (
-    <h2 className="text-2xl font-bold text-slate-300 mt-6 mb-3" {...props} />
-  ),
-  h3: (props: HeadingProps) => (
-    <h3 className="text-xl font-semibold text-slate-300 mt-5 mb-2" {...props} />
-  ),
-  p: (props: ParagraphProps) => (
-    <p className="text-lg text-slate-400 my-4 leading-relaxed" {...props} />
-  ),
-  a: (props: LinkComponentProps) => (
-    <a className="text-blue-400 hover:underline" {...props} />
-  ), // Using 'a' here for direct HTML links
-  ul: (props: ListProps) => (
-    <ul className="list-disc list-inside ml-4 my-4" {...props} />
-  ),
-  ol: (props: ListProps) => (
-    <ol className="list-decimal list-inside ml-4 my-4" {...props} />
-  ),
-  li: (props: ListItemProps) => (
-    <li className="text-slate-400 mb-1" {...props} />
-  ),
-  strong: (props: CustomComponentProps) => (
-    <strong className="font-semibold text-slate-200" {...props} />
-  ),
-  em: (props: CustomComponentProps) => <em className="italic" {...props} />,
-  blockquote: (props: CustomComponentProps) => (
-    <blockquote
-      className="border-l-4 border-teal-500 pl-4 italic text-slate-300 my-4"
-      {...props}
-    />
-  ),
-  hr: () => <hr className="border-t border-slate-700 my-8" />,
-  Link: (props: LinkComponentProps) => (
-    <Link {...props} className="text-blue-400 hover:underline" />
-  )
-};
-
-export default async function WikiMDXPage({ params }: WikiPageProps) {
-  const slugPath = params.slug.join("/");
-  let finalFileName: string; // Use 'let' here as it will be assigned conditionally
-
-  // Try to find 'slug.mdx' first
-  const directPath = path.join(process.cwd(), "content", `${slugPath}.mdx`);
-  try {
-    await fs.access(directPath);
-    finalFileName = slugPath; // Direct file exists
-  } catch {
-    // If direct file doesn't exist, try 'slug/_index.mdx'
-    const indexPath = path.join(
-      process.cwd(),
-      "content",
-      slugPath,
-      "_index.mdx"
-    );
-    try {
-      await fs.access(indexPath);
-      finalFileName = path.join(slugPath, "_index"); // _index file exists
-    } catch {
-      // If neither exists, then it's a 404
-      console.error(
-        `Failed to find MDX file for slug: ${slugPath}. Tried ${directPath} and ${indexPath}`
-      );
-      return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-slate-900 text-red-400 p-8">
-          <h1 className="text-4xl font-bold mb-4">404 - Page Not Found</h1>
-          <p className="text-xl mb-8">
-            Could not find content for /{params.slug.join("/")}.
-          </p>
-          <Link href="/wiki" className="text-teal-300 hover:underline">
-            Back to Wiki Map
-          </Link>
-        </div>
-      );
-    }
-  }
-
-  const filePath = path.join(process.cwd(), "content", `${finalFileName}.mdx`); // Use the determined finalFileName
-
-  let mdxSource: string = ""; // Explicitly type mdxSource
-  let frontmatter: WikiFrontmatter = {}; // Use our new interface
-
-  try {
-    const fileContent = await fs.readFile(filePath, "utf-8");
-    const { data, content } = matter(fileContent);
-    frontmatter = data as WikiFrontmatter; // Explicitly cast data to our interface
-    mdxSource = content;
-  } catch (error) {
-    console.error(`Error reading MDX file for path: ${filePath}`, error);
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-slate-900 text-red-400 p-8">
-        <h1 className="text-4xl font-bold mb-4">500 - Server Error</h1>
-        <p className="text-xl mb-8">
-          Failed to process content for /{params.slug.join("/")}.
-        </p>
-        <Link href="/wiki" className="text-teal-300 hover:underline">
-          Back to Wiki Map
-        </Link>
-      </div>
-    );
-  }
-
-  const layoutTheme = frontmatter.theme || "default";
-  const isBerkshireHathaway = layoutTheme === "berkshire-hathaway";
-
-  const pageClasses = isBerkshireHathaway
-    ? "font-serif bg-white text-black min-h-screen p-8"
-    : "bg-slate-900 text-slate-400 min-h-screen p-8";
-
-  return (
-    <div className={pageClasses}>
-      <div className="max-w-screen-md mx-auto">
-        <Link
-          href="/wiki"
-          className={
-            isBerkshireHathaway
-              ? "text-blue-800 visited:text-purple-600 hover:underline"
-              : "text-slate-500 hover:text-teal-300"
-          }
-        >
-          &lt;&lt; Back to Wiki Map
-        </Link>
-
-        <article className="mt-8">
-          <MDXRemote source={mdxSource} components={components} />
-        </article>
-      </div>
-    </div>
-  );
-}
-// Inside src/app/wiki/[slug]/page.tsx
-
+// generateStaticParams function for SSG
 export async function generateStaticParams() {
-  console.log(
-    "Running refined generateStaticParams (Attempt with direct relative path)..."
-  );
+  console.log("Running generateStaticParams (final version with `..` fix)...");
   const contentDir = path.join(process.cwd(), "content");
   let files: string[] = [];
   try {
-    // Read all files recursively from the content directory
-    // We get names relative to contentDir because 'recursive: true' does this
-    // for path.join(base, file) type of usage.
     files = await fs.readdir(contentDir, { recursive: true });
   } catch (error) {
     console.warn(
@@ -276,9 +62,8 @@ export async function generateStaticParams() {
   const paths = new Set<string>();
 
   for (const file of files) {
-    // Only process .md or .mdx files
     if (file.endsWith(".mdx") || file.endsWith(".md")) {
-      // The 'file' variable from recursive readdir should already be relative to contentDir
+      // 'file' from recursive readdir should already be relative to contentDir (e.g., 'manufacturing/_index.mdx')
       const relativePath = file;
 
       let pathWithoutExtension = relativePath.replace(/\.(mdx?)$/, "");
@@ -298,7 +83,6 @@ export async function generateStaticParams() {
 
   const finalParams = Array.from(paths)
     .map((pathStr) => {
-      // Split by path separator and filter out empty segments
       const slugSegments = pathStr
         .split(path.sep)
         .filter((segment) => segment.length > 0);
@@ -308,4 +92,259 @@ export async function generateStaticParams() {
 
   console.log("Generated Params (Final):", finalParams);
   return finalParams;
+}
+
+// Main Page Component
+export default async function WikiMDXPage({ params }: WikiPageProps) {
+  const fullSlug = params.slug.join(path.sep); // e.g., 'manufacturing' or 'manufacturing/additive/fdm'
+  let mdxPath: string;
+
+  // Try to find the MDX file for the given slug
+  // 1. Direct match: content/manufacturing/additive/fdm.mdx
+  // 2. Directory index: content/manufacturing/_index.mdx
+  const directPath = path.join(process.cwd(), "content", `${fullSlug}.mdx`);
+  const indexPath = path.join(process.cwd(), "content", fullSlug, "_index.mdx");
+  const directPathMd = path.join(process.cwd(), "content", `${fullSlug}.md`); // .md support
+  const indexPathMd = path.join(
+    process.cwd(),
+    "content",
+    fullSlug,
+    "_index.md"
+  ); // .md support
+
+  try {
+    await fs.access(directPath);
+    mdxPath = directPath;
+  } catch {
+    try {
+      await fs.access(indexPath);
+      mdxPath = indexPath;
+    } catch {
+      try {
+        await fs.access(directPathMd);
+        mdxPath = directPathMd;
+      } catch {
+        try {
+          await fs.access(indexPathMd);
+          mdxPath = indexPathMd;
+        } catch {
+          // If no MDX file found, return a 404 (or appropriate handling)
+          return (
+            <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-4">
+              <h1 className="text-4xl font-bold text-red-500 mb-4">
+                404 - Content Not Found
+              </h1>
+              <p className="text-xl text-slate-300 mb-8">
+                The wiki page for &quot;/{fullSlug}&quot; could not be found.
+              </p>
+              <Link
+                href="/wiki"
+                className="text-blue-400 hover:underline text-lg"
+              >
+                Go back to Wiki Home
+              </Link>
+            </div>
+          );
+        }
+      }
+    }
+  }
+
+  const fileContent = await fs.readFile(mdxPath, "utf8");
+  const { content, data: frontmatter } = matter(fileContent);
+  const typedFrontmatter = frontmatter as WikiFrontmatter; // Type assertion
+
+  // Re-integrated theming logic
+  const layoutTheme = typedFrontmatter.theme || "default"; // Default theme if not specified
+  const isBerkshireHathaway = layoutTheme === "berkshire-hathaway";
+
+  // Define components available to your MDX files
+  const components = {
+    // Referencing the imported Quiz component
+    Quiz: (
+      props: CustomComponentProps & { id: string; questions?: QuizQuestion[] }
+    ) => (
+      <Quiz {...props} /> // Pass all props to the actual Quiz component
+    ),
+    // Using `React.ComponentPropsWithoutRef` for components that don't typically have children
+    // to avoid the "no properties in common with intrinsicattributes" error.
+    GlossaryTerm: (
+      props: React.ComponentPropsWithoutRef<typeof GlossaryTerm> &
+        CustomComponentProps & { term: string; children?: React.ReactNode }
+    ) => <GlossaryTerm {...props} />,
+    FourPillarsDiagram: (
+      props: React.ComponentPropsWithoutRef<typeof FourPillarsDiagram> &
+        CustomComponentProps
+    ) => <FourPillarsDiagram {...props} />,
+    ProcessModelDiagram: (
+      props: React.ComponentPropsWithoutRef<typeof ProcessModelDiagram> &
+        CustomComponentProps
+    ) => <ProcessModelDiagram {...props} />,
+    // Example: A component for glossary links (assuming you have a /wiki/glossary page)
+    GlossaryLink: (props: CustomComponentProps & { term: string }) => (
+      <Link
+        href={`/wiki/glossary#${(props.term as string)
+          .toLowerCase()
+          .replace(/\s/g, "-")}`}
+        className="text-teal-300 hover:underline"
+      >
+        {props.term as string}
+      </Link>
+    ),
+    // Standard HTML elements overrides for consistent styling
+    h1: (props: CustomComponentProps) => (
+      <h1 className="text-4xl font-bold mt-8 mb-4 text-white" {...props} />
+    ),
+    h2: (props: CustomComponentProps) => (
+      <h2 className="text-3xl font-semibold mt-6 mb-3 text-white" {...props} />
+    ),
+    h3: (props: CustomComponentProps) => (
+      <h3 className="text-2xl font-medium mt-5 mb-2 text-white" {...props} />
+    ),
+    h4: (props: CustomComponentProps) => (
+      <h4 className="text-xl font-medium mt-4 mb-2 text-white" {...props} />
+    ),
+    p: (props: CustomComponentProps) => (
+      <p className="text-lg text-slate-300 leading-relaxed mb-4" {...props} />
+    ),
+    a: (props: CustomComponentProps) => (
+      <a className="text-blue-400 hover:underline" {...props} />
+    ),
+    ul: (props: CustomComponentProps) => (
+      <ul
+        className="list-disc list-inside text-lg text-slate-300 mb-4 pl-5"
+        {...props}
+      />
+    ),
+    ol: (props: CustomComponentProps) => (
+      <ol
+        className="list-decimal list-inside text-lg text-slate-300 mb-4 pl-5"
+        {...props}
+      />
+    ),
+    li: (props: CustomComponentProps) => <li className="mb-1" {...props} />,
+    strong: (props: CustomComponentProps) => (
+      <strong className="font-bold text-white" {...props} />
+    ),
+    em: (props: CustomComponentProps) => (
+      <em className="italic text-slate-400" {...props} />
+    ),
+    hr: (props: CustomComponentProps) => (
+      <hr className="my-8 border-t-2 border-slate-700" {...props} />
+    ),
+    blockquote: (props: CustomComponentProps) => (
+      <blockquote
+        className="border-l-4 border-blue-500 pl-4 italic text-slate-400 my-4"
+        {...props}
+      />
+    ),
+    // --- Using Next.js Image component for optimization ---
+    img: (props: CustomComponentProps) => {
+      // Extract necessary props, casting potentially `unknown` values
+      const src = props.src as string;
+      const alt = (props.alt as string) || "";
+      const width = (props.width as number | undefined) || 800; // Default width
+      const height = (props.height as number | undefined) || 600; // Default height
+
+      return (
+        <span className="my-6 block rounded-lg shadow-lg overflow-hidden">
+          <Image
+            src={src}
+            alt={alt}
+            width={width}
+            height={height}
+            layout="responsive" // Make image responsive
+            objectFit="contain" // Or "cover", depending on desired behavior
+            {...(props as Record<string, unknown>)} // Pass remaining props
+          />
+        </span>
+      );
+    },
+    table: (props: CustomComponentProps) => (
+      <table
+        className="w-full text-left table-auto my-6 border-collapse"
+        {...props}
+      />
+    ),
+    thead: (props: CustomComponentProps) => (
+      <thead className="bg-slate-700 text-white" {...props} />
+    ),
+    th: (props: CustomComponentProps) => (
+      <th className="p-3 border border-slate-600 font-semibold" {...props} />
+    ),
+    tbody: (props: CustomComponentProps) => (
+      <tbody className="bg-slate-800 text-slate-300" {...props} />
+    ),
+    td: (props: CustomComponentProps) => (
+      <td className="p-3 border border-slate-700" {...props} />
+    ),
+    code: (props: CustomComponentProps) => (
+      <code
+        className="bg-slate-700 rounded px-1 py-0.5 text-sm text-yellow-300"
+        {...props}
+      />
+    ),
+    pre: (props: CustomComponentProps) => (
+      <pre className="bg-slate-900 rounded-lg p-4 my-4 overflow-x-auto text-sm">
+        <code className="text-white" {...props} />
+      </pre>
+    )
+    // You'd add your custom citation components here once implemented:
+    // CiteStart: (props: CustomComponentProps) => <span className="text-sm font-light text-slate-500 italic" {...props} />,
+    // Cite: (props: CustomComponentProps & { id: string }) => <sup className="ml-1 text-blue-400 cursor-help">[{props.id}]</sup>,
+  };
+
+  return (
+    // Conditional styling based on theme
+    <div
+      className={clsx(
+        "min-h-screen p-4 md:p-8 lg:p-12 xl:p-16",
+        isBerkshireHathaway
+          ? "font-serif bg-white text-black"
+          : "bg-slate-900 text-slate-400"
+      )}
+    >
+      <div
+        className={clsx(
+          "max-w-prose mx-auto", // Max-width for readable content
+          isBerkshireHathaway ? "text-black" : "text-white"
+        )}
+      >
+        <Link
+          href="/wiki"
+          className={clsx(
+            "block mb-8",
+            isBerkshireHathaway
+              ? "text-blue-800 visited:text-purple-600 hover:underline"
+              : "text-slate-500 hover:text-teal-300"
+          )}
+        >
+          &lt;&lt; Back to Wiki Map
+        </Link>
+        <article className="prose prose-invert max-w-none">
+          {" "}
+          {/* prose-invert for dark mode defaults */}
+          <h1
+            className={clsx(
+              "text-5xl font-extrabold mb-4",
+              isBerkshireHathaway ? "text-gray-900" : "text-white"
+            )}
+          >
+            {typedFrontmatter.title}
+          </h1>
+          {typedFrontmatter.description && (
+            <p
+              className={clsx(
+                "text-xl mb-8",
+                isBerkshireHathaway ? "text-gray-700" : "text-slate-400"
+              )}
+            >
+              {typedFrontmatter.description}
+            </p>
+          )}
+          <MDXRemote source={content} components={components} />
+        </article>
+      </div>
+    </div>
+  );
 }
