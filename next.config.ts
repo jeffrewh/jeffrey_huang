@@ -14,6 +14,12 @@ const withMDX = nextMDX({
 
 /** @type {import('next').NextConfig} */
 const nextConfig: NextConfig = {
+  transpilePackages: [
+    "next-mdx-remote" // Transpile next-mdx-remote itself
+    // You might need to add specific unist/vfile packages here if problems persist,
+    // but starting with the main package is usually sufficient.
+    // e.g., 'unist-util-remove', 'vfile-message', 'vfile'
+  ],
   // Your existing config options (which are currently empty but could grow)
   reactStrictMode: true, // Generally a good default for Next.js apps
   //swcMinify: true, // Speeds up minification

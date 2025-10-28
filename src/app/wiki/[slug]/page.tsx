@@ -44,53 +44,94 @@ interface CustomComponentProps {
   children?: React.ReactNode;
 }
 
-// generateStaticParams function for SSG
 export async function generateStaticParams() {
-  console.log("Running generateStaticParams (final version with `..` fix)...");
+  console.log("\n--- Debugging generateStaticParams START ---");
   const contentDir = path.join(process.cwd(), "content");
+  console.log(`Content Directory: ${contentDir}`);
+
   let files: string[] = [];
   try {
     files = await fs.readdir(contentDir, { recursive: true });
+    console.log(`Found ${files.length} raw files/directories in contentDir`);
   } catch (error) {
     console.warn(
       `Content directory not found or unreadable at ${contentDir}. No static params will be generated for MDX.`,
       error
     );
+    console.log("--- Debugging generateStaticParams END (Error) --- \n");
     return [];
   }
 
   const paths = new Set<string>();
 
   for (const file of files) {
+    console.log(`\nProcessing file: ${file}`);
     if (file.endsWith(".mdx") || file.endsWith(".md")) {
-      // 'file' from recursive readdir should already be relative to contentDir (e.g., 'manufacturing/_index.mdx')
-      const relativePath = file;
+      const originalFile = file;
 
-      let pathWithoutExtension = relativePath.replace(/\.(mdx?)$/, "");
+      // 1. Remove file extension (.mdx or .md)
+      const pathWithoutExtension = file.replace(/\.(mdx?)$/, "");
+      console.log(`  1. pathWithoutExtension: ${pathWithoutExtension}`);
 
-      if (pathWithoutExtension.endsWith("/_index")) {
-        pathWithoutExtension = pathWithoutExtension.substring(
-          0,
-          pathWithoutExtension.length - "/_index".length
+      // 2. Split the path into individual segments, normalizing separators
+      //    Example: 'manufacturing/subtractive/_index' -> ['manufacturing', 'subtractive', '_index']
+      //    Example: 'manufacturing/subtractive/index' -> ['manufacturing', 'subtractive', 'index']
+      const segments = pathWithoutExtension
+        .split(path.sep)
+        .filter((segment) => segment.length > 0);
+      console.log(
+        `  2. Segments (after split by path.sep): [${segments.join(", ")}]`
+      );
+      console.log(`  path.sep in use: '${path.sep}'`);
+
+      // 3. Filter out any segment that is exactly '_index' OR 'index' (case-sensitive)
+      const cleanSegments = segments.filter((segment) => {
+        const isIndexFileIdentifier =
+          segment === "_index" || segment === "index"; // <--- CRITICAL CHANGE HERE
+        // console.log(`    Checking segment '${segment}': isIndexFileIdentifier=${isIndexFileIdentifier}`); // uncomment for extreme verbosity
+        return !isIndexFileIdentifier;
+      });
+      console.log(
+        `  3. Clean Segments (after filtering '_index' and 'index'): [${cleanSegments.join(
+          ", "
+        )}]`
+      );
+
+      // 4. If after filtering, there are segments left, add them to our set of unique paths
+      if (cleanSegments.length > 0) {
+        const joinedPath = cleanSegments.join("/");
+        paths.add(joinedPath);
+        console.log(`  4. Added to paths set: '${joinedPath}'`);
+      } else {
+        // This case handles `content/index.mdx` or `content/_index.mdx`
+        // if it should map to the root wiki URL `/wiki` (i.e., { slug: [] })
+        // For now, let's add an empty slug array if the path becomes empty,
+        // assuming your /wiki/ page expects it.
+        paths.add(""); // Add an empty string for the root if content has an index
+        console.log(
+          `  4. Clean segments were empty, adding root path for: ${originalFile}`
         );
       }
-
-      if (pathWithoutExtension.length > 0) {
-        paths.add(pathWithoutExtension);
-      }
+    } else {
+      console.log(`  Skipping non-MDX file: ${file}`);
     }
   }
 
   const finalParams = Array.from(paths)
     .map((pathStr) => {
       const slugSegments = pathStr
-        .split(path.sep)
+        .split("/")
         .filter((segment) => segment.length > 0);
       return { slug: slugSegments };
     })
-    .filter((param) => param.slug.length > 0); // Ensure no empty slug arrays are returned
+    .filter((param) => param.slug.length > 0 || pathStr === ""); // Keep empty slug array if pathStr was empty for root
+  // The `pathStr === ''` ensures { slug: [] } is not filtered out if it's explicitly added for the root.
 
-  console.log("Generated Params (Final):", finalParams);
+  console.log(
+    "\nGenerated Params (Final - Ultra-robust _index AND index removal with debug logs):",
+    finalParams
+  );
+  console.log("--- Debugging generateStaticParams END --- \n");
   return finalParams;
 }
 
