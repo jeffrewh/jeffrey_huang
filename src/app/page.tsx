@@ -491,22 +491,23 @@ export default function Home() {
                         This project bridges the gap between thermodynamic
                         theory and mechanical reality. To understand the drivers
                         of gas turbine performance, I developed a custom
-                        Python-based Cycle Analysis tool (mimicking NPSS) to
-                        perform parametric sweeps of compressor pressure ratios
-                        and turbine inlet temperatures. The code outputs
-                        specific thrust and thermal efficiency, allowing for
-                        rapid trade studies at the conceptual design phase.
-                      </p>
-                      <p className="mt-2 text-base text-slate-400 leading-relaxed">
-                        Validating the code with hardware reality, I designed a
-                        centrifugal compressor impeller using parametric
-                        modeling techniques in CAD. The geometry is
-                        equation-driven, allowing the wheel diameter and blade
-                        angles to automatically update based on the cycle
-                        analysis outputs. I further validated the design using
-                        Ansys Static Structural FEA, simulating inertial loads
-                        at 60,000 RPM to ensure the titanium geometry met safety
-                        factor requirements for high-speed operation.
+                        constraint-driven Python Cycle Analysis tool (mimicking
+                        NPSS logic). Instead of guessing parameters, I used the
+                        script to perform reverse-sizing analysis—inputting a
+                        physical packaging limit (80mm diameter) to
+                        mathematically determine the required rotational speed
+                        for a 4:1 pressure ratio. The code outputs specific
+                        thrust, thermal efficiency, and structural requirements,
+                        allowing for rapid trade studies at the conceptual
+                        design phase. Validating the code with hardware reality,
+                        I designed a centrifugal compressor impeller using
+                        parametric modeling techniques in Siemens NX. The
+                        geometry is equation-driven, allowing the wheel diameter
+                        and blade angles to automatically update based on the
+                        cycle analysis outputs. I further validated the design
+                        using Ansys Static Structural FEA, simulating inertial
+                        loads at 102,000 RPM to ensure the titanium geometry met
+                        safety factor requirements for high-speed operation.
                       </p>
                       <ul
                         className="mt-2 flex flex-wrap"
