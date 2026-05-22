@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="mx-auto min-h-screen max-w-screen-xl px-6 py-12 md:px-12 md:py-16 lg:gap-24 lg:px-24 lg:py-0">
+    <div className="mx-auto min-h-screen max-w-7xl px-6 py-12 md:px-12 md:py-16 lg:gap-24 lg:px-24 lg:py-0">
       <div className="lg:flex lg:justify-between lg:gap-24">
         <LeftSidebar />
 
