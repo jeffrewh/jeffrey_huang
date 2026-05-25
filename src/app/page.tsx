@@ -89,7 +89,7 @@ export default function Home() {
               <ol className="group/list">
                 {/* Honeywell Systems Engineer */}
                 <li className="mb-12">
-                  <div className="group relative grid pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/list:opacity-50">
+                  <div className="group relative grid pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:opacity-100! lg:group-hover/list:opacity-50">
                     <div className="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-md transition motion-reduce:transition-none lg:-inset-x-6 lg:block lg:group-hover:bg-slate-800/50"></div>
                     <header className="z-10 mb-2 mt-1 text-xs font-semibold uppercase tracking-wide text-slate-500 sm:col-span-2">
                       Jan 2024 — Present
@@ -202,7 +202,7 @@ export default function Home() {
                 </li>
                 {/* Honeywell AME */}
                 <li className="mb-12">
-                  <div className="group relative grid pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/list:opacity-50">
+                  <div className="group relative grid pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:opacity-100! lg:group-hover/list:opacity-50">
                     <div className="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-md transition motion-reduce:transition-none lg:-inset-x-6 lg:block lg:group-hover:bg-slate-800/50"></div>
                     <header className="z-10 mb-2 mt-1 text-xs font-semibold uppercase tracking-wide text-slate-500 sm:col-span-2">
                       Nov 2022 — 2024
@@ -297,7 +297,7 @@ export default function Home() {
                 </li>
                 {/* Honeywell MQE */}
                 <li className="mb-12">
-                  <div className="group relative grid pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/list:opacity-50">
+                  <div className="group relative grid pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:opacity-100! lg:group-hover/list:opacity-50">
                     <div className="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-md transition motion-reduce:transition-none lg:-inset-x-6 lg:block lg:group-hover:bg-slate-800/50"></div>
                     <header className="z-10 mb-2 mt-1 text-xs font-semibold uppercase tracking-wide text-slate-500 sm:col-span-2">
                       Apr — Nov 2022
@@ -426,7 +426,7 @@ export default function Home() {
               <ul className="group/list">
                 {/* === RASPBERRY PI PROJECT CARD === */}
                 <li className="mb-12">
-                  <div className="group relative grid gap-4 pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/list:opacity-50">
+                  <div className="group relative grid gap-4 pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:opacity-100! lg:group-hover/list:opacity-50">
                     <div className="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-md transition motion-reduce:transition-none lg:-inset-x-6 lg:block lg:group-hover:bg-slate-800/50"></div>
                     <div className="z-10 sm:order-2 sm:col-span-6">
                       <h3 className="font-medium leading-snug text-slate-200">
@@ -477,7 +477,7 @@ export default function Home() {
                 </li>
                 {/* === Parametric Gas Turbine Analysis === */}
                 <li className="mb-12">
-                  <div className="group relative grid gap-4 pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/list:opacity-50">
+                  <div className="group relative grid gap-4 pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:opacity-100! lg:group-hover/list:opacity-50">
                     <div className="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-md transition motion-reduce:transition-none lg:-inset-x-6 lg:block lg:group-hover:bg-slate-800/50"></div>
                     <div className="z-10 sm:order-2 sm:col-span-6">
                       <h3 className="font-medium leading-snug text-slate-200">
@@ -488,26 +488,10 @@ export default function Home() {
                         </span>
                       </h3>
                       <p className="mt-2 text-base text-slate-400 leading-relaxed">
-                        This project bridges the gap between thermodynamic
-                        theory and mechanical reality. To understand the drivers
-                        of gas turbine performance, I developed a custom
-                        constraint-driven Python Cycle Analysis tool (mimicking
-                        NPSS logic). Instead of guessing parameters, I used the
-                        script to perform reverse-sizing analysis—inputting a
-                        physical packaging limit (80mm diameter) to
-                        mathematically determine the required rotational speed
-                        for a 4:1 pressure ratio. The code outputs specific
-                        thrust, thermal efficiency, and structural requirements,
-                        allowing for rapid trade studies at the conceptual
-                        design phase. Validating the code with hardware reality,
-                        I designed a centrifugal compressor impeller using
-                        parametric modeling techniques in Siemens NX. The
-                        geometry is equation-driven, allowing the wheel diameter
-                        and blade angles to automatically update based on the
-                        cycle analysis outputs. I further validated the design
-                        using Ansys Static Structural FEA, simulating inertial
-                        loads at 102,000 RPM to ensure the titanium geometry met
-                        safety factor requirements for high-speed operation.
+                        Engineered a constraint-driven 80mm single-stage centrifugal compressor for an expendable micro-turbine application (specifically modeling Group 2 Loitering Munition Propulsion System). Developed a 0D thermodynamic cycle solver in Python, mirroring industry-standard NPSS architecture, to sweep design space and optimize performance against a strict TIT (Turbine Inlet Temperature) material limit. The cycle solver identified an OPR (peak operating pressure ratio) of ~4.0, which ultimately dictated a required physical tip speed of 102k RPM.
+                      </p>
+                      <p className="mt-2 text-base text-slate-400 leading-relaxed">
+                      Subsequently designed a fully parametric CAD model using Siemens NX and validated structural survivability at the 102k RPM operating point via Ansys FEA. Simulation showed a max Von Mises stress ~622 MPa, adhering to a safety factor against the ~880+ MPa yield threshold expected of the Ti-6Al-4V rotor.
                       </p>
                       <ul
                         className="mt-2 flex flex-wrap"
@@ -540,16 +524,26 @@ export default function Home() {
                         </li>
                       </ul>
                     </div>
-                    {/* Use a representative image instead of a screenshot */}
-                    <Image
-                      alt="A graphic representing web automation"
-                      loading="lazy"
-                      width="200"
-                      height="48"
-                      decoding="async"
-                      src="/raspberry_pi_icon.png"
-                      className="rounded border-2 border-slate-200/10 transition group-hover:border-slate-200/30 sm:order-1 sm:col-span-2 sm:translate-y-1"
-                    />
+                    <div className="z-10 flex flex-col gap-4 sm:order-1 sm:col-span-2 sm:translate-y-1">
+                      <Image
+                        alt="Micro-turbojet thermodynamic cycle analysis diagram"
+                        loading="lazy"
+                        width={200}
+                        height={120}
+                        decoding="async"
+                        src="/turbojet_cycle.png"
+                        className="rounded border-2 border-slate-200/10 transition group-hover:border-slate-200/30 w-full h-auto"
+                      />
+                      <Image
+                        alt="Parametric centrifugal compressor CAD model and FEA results"
+                        loading="lazy"
+                        width={200}
+                        height={120}
+                        decoding="async"
+                        src="/turbojet_impeller_FEA.png"
+                        className="rounded border-2 border-slate-200/10 transition group-hover:border-slate-200/30 w-full h-auto"
+                      />
+                    </div>
                   </div>
                 </li>
               </ul>

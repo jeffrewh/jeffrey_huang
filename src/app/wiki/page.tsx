@@ -1,45 +1,76 @@
 // src/app/wiki/page.tsx
 "use client";
 
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import WikiCanvas from "@/components/WikiCanvas"; // Import the 3D Canvas component
+import WikiCanvas from "@/components/WikiCanvas";
+import { WIKI_PASSWORD } from "@/lib/wiki";
 
-export default function Wiki() {
+function extractPasswordFromPath(path: string): string | null {
+  const match = path.match(/\/wiki\/pass=(.+)$/);
+  if (!match?.[1]) return null;
+  return decodeURIComponent(match[1]).trim();
+}
+
+function WikiContent() {
   const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [error, setError] = useState("");
-  const [showOverlay, setShowOverlay] = useState(true);
+  const [showPasswordGate, setShowPasswordGate] = useState(true);
+  const [showCiaOverlay, setShowCiaOverlay] = useState(false);
 
-  // Use env var for security; fallback for local dev if .env.local isn't set
-  const CORRECT_PASSWORD =
-    process.env.NEXT_PUBLIC_WIKI_PASSWORD || "your_secret_password";
+  const dismissCiaOverlay = useCallback(() => {
+    setShowCiaOverlay(false);
+  }, []);
+
+  const clearWikiSession = useCallback(() => {
+    localStorage.removeItem("wikiLoggedIn");
+    setIsLoggedIn(false);
+    setShowPasswordGate(true);
+    setShowCiaOverlay(false);
+    setError("");
+  }, []);
 
   useEffect(() => {
-    // Check if the user is already logged in (e.g., from session storage)
     const storedLogin = localStorage.getItem("wikiLoggedIn");
     if (storedLogin === "true") {
       setIsLoggedIn(true);
-      setShowOverlay(false);
+      setShowPasswordGate(false);
     }
   }, []);
 
+  useEffect(() => {
+    const urlPassword = extractPasswordFromPath(window.location.pathname);
+    if (urlPassword) {
+      setPassword(urlPassword);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!showCiaOverlay) return;
+
+    const timer = window.setTimeout(dismissCiaOverlay, 4000);
+    return () => window.clearTimeout(timer);
+  }, [showCiaOverlay, dismissCiaOverlay]);
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === CORRECT_PASSWORD) {
+    const entered = password.trim();
+    const expected = WIKI_PASSWORD.trim();
+
+    if (entered === expected) {
       setIsLoggedIn(true);
-      setShowOverlay(false);
+      setShowPasswordGate(false);
+      setShowCiaOverlay(true);
       setError("");
-      localStorage.setItem("wikiLoggedIn", "true"); // Persist login for the session
+      localStorage.setItem("wikiLoggedIn", "true");
     } else {
-      setError("Incorrect password.");
+      setError(`Incorrect password. (Expected ${expected.length} characters.)`);
     }
   };
 
   return (
-    // The main container needs to be relative to position the back link absolutely
     <div className="relative min-h-screen bg-slate-900 text-slate-400">
-      {/* Back to Home link - always visible, but positioned relative to the overall div */}
       <Link
         href="/"
         className="absolute top-8 left-8 z-20 inline-flex items-center text-sm font-medium text-slate-500 hover:text-teal-300"
@@ -60,32 +91,26 @@ export default function Wiki() {
         Back to Home
       </Link>
 
-      {/* Wiki Content (The 3D Canvas) - only visible if logged in */}
-      {isLoggedIn ? (
-        // The WikiCanvas will take full height/width
-        <WikiCanvas />
-      ) : (
-        // Placeholder or initial message when not logged in, but overlay not yet active
-        <div className="flex items-center justify-center min-h-screen">
-          {/* This div just ensures min-h-screen for initial load before overlay appears */}
-        </div>
-      )}
+      {isLoggedIn && !showCiaOverlay ? <WikiCanvas /> : null}
 
-      {/* Password Overlay - only visible if showOverlay is true AND not logged in */}
-      {showOverlay && !isLoggedIn && (
+      {showPasswordGate && !isLoggedIn ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/95 backdrop-blur-sm">
           <form
             onSubmit={handleLogin}
-            className="flex flex-col gap-4 p-8 rounded-lg bg-slate-800 shadow-xl text-center"
+            className="flex flex-col gap-4 p-8 rounded-lg bg-slate-800 shadow-xl text-center max-w-sm w-full mx-4 border border-slate-700"
           >
             <h2 className="text-2xl font-bold text-slate-200">Access Wiki</h2>
+            <p className="text-sm text-slate-500">
+              Yes, the password is literally in the URL. That&apos;s the joke.
+            </p>
             <input
-              type="password"
+              type="text"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
-              className="rounded border-2 border-slate-600 bg-slate-700 p-3 text-slate-200 focus:border-teal-300 focus:outline-none placeholder-slate-500"
-              aria-label="Wiki Password"
+              autoComplete="off"
+              className="rounded border-2 border-slate-600 bg-slate-700 p-3 text-slate-200 focus:border-teal-300 focus:outline-none placeholder-slate-500 font-mono text-sm"
+              aria-label="Wiki password"
             />
             <button
               type="submit"
@@ -93,10 +118,53 @@ export default function Wiki() {
             >
               Enter
             </button>
-            {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
+            {error ? <p className="text-red-400 text-sm mt-2">{error}</p> : null}
+            <button
+              type="button"
+              onClick={clearWikiSession}
+              className="text-xs text-slate-600 hover:text-slate-400 underline"
+            >
+              Reset wiki session
+            </button>
           </form>
         </div>
-      )}
+      ) : null}
+
+      {showCiaOverlay ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/90 backdrop-blur-sm">
+          <div className="flex flex-col gap-5 p-8 rounded-lg bg-slate-900 shadow-2xl text-center max-w-md mx-4 border-2 border-amber-400/60 ring-4 ring-amber-400/20">
+            <p className="text-4xl" aria-hidden="true">
+              🛡️
+            </p>
+            <h2 className="text-2xl font-bold text-amber-200">
+              Relax — I know about the CIA triad
+            </h2>
+            <p className="text-slate-300 leading-relaxed">
+              Confidentiality, Integrity, Availability — yes, putting a password
+              in the URL violates at least two of those. This is intentional
+              comedy, not my threat model.
+            </p>
+            <p className="text-xs text-slate-500">
+              (This overlay auto-closes in a few seconds.)
+            </p>
+            <button
+              type="button"
+              onClick={dismissCiaOverlay}
+              className="rounded bg-amber-400/15 px-6 py-2 text-amber-200 font-semibold hover:bg-amber-400/25 transition-colors self-center"
+            >
+              OK, I get it
+            </button>
+          </div>
+        </div>
+      ) : null}
     </div>
+  );
+}
+
+export default function Wiki() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-slate-900" />}>
+      <WikiContent />
+    </Suspense>
   );
 }

@@ -21,7 +21,14 @@ export default function DevLog() {
       try {
         const response = await fetch('/api/commits');
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          let message = `HTTP error! status: ${response.status}`;
+          try {
+            const body = await response.json();
+            if (body?.error) message = body.error;
+          } catch {
+            // response body wasn't JSON
+          }
+          throw new Error(message);
         }
         const data: Commit[] = await response.json();
         setCommits(data);

@@ -13,6 +13,8 @@ import { Quiz, QuizQuestion } from "@/components/Quiz"; // Import Quiz and its i
 import { GlossaryTerm } from "@/components/GlossaryTerm";
 import { FourPillarsDiagram } from "@/components/diagrams/FourPillarsDiagram";
 import { ProcessModelDiagram } from "@/components/diagrams/ProcessModelDiagram";
+import { OrthogonalCuttingDiagram } from "@/components/diagrams/OrthogonalCuttingDiagram";
+import { SandCastingDiagram } from "@/components/diagrams/SandCastingDiagram";
 
 // Make sure these component stubs actually exist at the specified paths:
 // src/components/Quiz.tsx
@@ -122,9 +124,10 @@ export async function generateStaticParams() {
       const slugSegments = pathStr
         .split("/")
         .filter((segment) => segment.length > 0);
-      return { slug: slugSegments };
+      return { slug: slugSegments, pathStr };
     })
-    .filter((param) => param.slug.length > 0 || pathStr === ""); // Keep empty slug array if pathStr was empty for root
+    .filter(({ slug, pathStr }) => slug.length > 0 || pathStr === "")
+    .map(({ slug }) => ({ slug }));
   // The `pathStr === ''` ensures { slug: [] } is not filtered out if it's explicitly added for the root.
 
   console.log(
@@ -137,6 +140,12 @@ export async function generateStaticParams() {
 
 // Main Page Component
 export default async function WikiMDXPage({ params }: WikiPageProps) {
+  const passSegment = params.slug.find((segment) => segment.startsWith("pass="));
+  if (passSegment) {
+    const { default: Wiki } = await import("../page");
+    return <Wiki />;
+  }
+
   const fullSlug = params.slug.join(path.sep); // e.g., 'manufacturing' or 'manufacturing/additive/fdm'
   let mdxPath: string;
 
@@ -221,6 +230,14 @@ export default async function WikiMDXPage({ params }: WikiPageProps) {
       props: React.ComponentPropsWithoutRef<typeof ProcessModelDiagram> &
         CustomComponentProps
     ) => <ProcessModelDiagram {...props} />,
+    OrthogonalCuttingDiagram: (
+      props: React.ComponentPropsWithoutRef<typeof OrthogonalCuttingDiagram> &
+        CustomComponentProps
+    ) => <OrthogonalCuttingDiagram {...props} />,
+    SandCastingDiagram: (
+      props: React.ComponentPropsWithoutRef<typeof SandCastingDiagram> &
+        CustomComponentProps
+    ) => <SandCastingDiagram {...props} />,
     // Example: A component for glossary links (assuming you have a /wiki/glossary page)
     GlossaryLink: (props: CustomComponentProps & { term: string }) => (
       <Link
