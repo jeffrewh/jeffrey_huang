@@ -12,9 +12,6 @@ export default function Wiki() {
   const [showPasswordGate, setShowPasswordGate] = useState(true);
   const [showCiaOverlay, setShowCiaOverlay] = useState(false);
 
-  const CORRECT_PASSWORD =
-    process.env.NEXT_PUBLIC_WIKI_PASSWORD || "lmaofigureitout";
-
   const dismissCiaOverlay = useCallback(() => {
     setShowCiaOverlay(false);
   }, []);
@@ -36,7 +33,11 @@ export default function Wiki() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === CORRECT_PASSWORD) {
+    const entered = password.trim();
+    const expected = (process.env.NEXT_PUBLIC_WIKI_PASSWORD || "lmaofigureitout")
+      .trim()
+      .replace(/^["']|["']$/g, "");
+    if (entered === expected) {
       setIsLoggedIn(true);
       setShowPasswordGate(false);
       setShowCiaOverlay(true);

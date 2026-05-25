@@ -1,5 +1,6 @@
 import LeftSidebar from "@/components/LeftSidebar";
 import Footer from "@/components/Footer";
+import ExpandableImage from "@/components/ExpandableImage";
 import Image from "next/image";
 
 export default function Home() {
@@ -525,22 +526,18 @@ export default function Home() {
                       </ul>
                     </div>
                     <div className="z-10 flex flex-col gap-4 sm:order-1 sm:col-span-2 sm:translate-y-1">
-                      <Image
+                      <ExpandableImage
+                        src="/turbojet_cycle.png"
                         alt="Micro-turbojet thermodynamic cycle analysis diagram"
-                        loading="lazy"
                         width={200}
                         height={120}
-                        decoding="async"
-                        src="/turbojet_cycle.png"
                         className="rounded border-2 border-slate-200/10 transition group-hover:border-slate-200/30 w-full h-auto"
                       />
-                      <Image
+                      <ExpandableImage
+                        src="/turbojet_impeller_FEA.png"
                         alt="Parametric centrifugal compressor CAD model and FEA results"
-                        loading="lazy"
                         width={200}
                         height={120}
-                        decoding="async"
-                        src="/turbojet_impeller_FEA.png"
                         className="rounded border-2 border-slate-200/10 transition group-hover:border-slate-200/30 w-full h-auto"
                       />
                     </div>
