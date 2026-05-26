@@ -2,6 +2,14 @@ import LeftSidebar from "@/components/LeftSidebar";
 import Footer from "@/components/Footer";
 import ExpandableImage from "@/components/ExpandableImage";
 import Image from "next/image";
+import Link from "next/link";
+import {
+  MICRO_TURBOJET_PROJECT_ID,
+  viewerHref,
+} from "@/lib/viewerProjects";
+
+const viewerLinkClass =
+  "text-teal-300 underline decoration-teal-300/40 underline-offset-2 hover:text-teal-200 hover:decoration-teal-200";
 
 export default function Home() {
   return (
@@ -489,10 +497,49 @@ export default function Home() {
                         </span>
                       </h3>
                       <p className="mt-2 text-base text-slate-400 leading-relaxed">
-                        Engineered a constraint-driven 80mm single-stage centrifugal compressor for an expendable micro-turbine application (specifically modeling Group 2 Loitering Munition Propulsion System). Developed a 0D thermodynamic cycle solver in Python, mirroring industry-standard NPSS architecture, to sweep design space and optimize performance against a strict TIT (Turbine Inlet Temperature) material limit. The cycle solver identified an OPR (peak operating pressure ratio) of ~4.0, which ultimately dictated a required physical tip speed of 102k RPM.
+                        Engineered a constraint-driven 80mm single-stage
+                        centrifugal compressor for an expendable micro-turbine
+                        application (specifically modeling Group 2 Loitering
+                        Munition Propulsion System). Developed a 0D thermodynamic{" "}
+                        <Link
+                          href={viewerHref.code(MICRO_TURBOJET_PROJECT_ID)}
+                          className={viewerLinkClass}
+                        >
+                          cycle solver
+                        </Link>{" "}
+                        in Python, mirroring industry-standard NPSS
+                        architecture, to sweep design space and optimize
+                        performance against a strict TIT (Turbine Inlet
+                        Temperature) material limit. The{" "}
+                        <Link
+                          href={viewerHref.code(MICRO_TURBOJET_PROJECT_ID)}
+                          className={viewerLinkClass}
+                        >
+                          cycle solver
+                        </Link>{" "}
+                        identified an OPR (peak operating pressure ratio) of
+                        ~4.0, which ultimately dictated a required physical tip
+                        speed of 102k RPM.
                       </p>
                       <p className="mt-2 text-base text-slate-400 leading-relaxed">
-                      Subsequently designed a fully parametric CAD model using Siemens NX and validated structural survivability at the 102k RPM operating point via Ansys FEA. Simulation showed a max Von Mises stress ~622 MPa, adhering to a safety factor against the ~880+ MPa yield threshold expected of the Ti-6Al-4V rotor.
+                        Subsequently designed a fully parametric{" "}
+                        <Link
+                          href={viewerHref.cad(MICRO_TURBOJET_PROJECT_ID)}
+                          className={viewerLinkClass}
+                        >
+                          CAD model
+                        </Link>{" "}
+                        using Siemens NX and validated structural survivability
+                        at the 102k RPM operating point via{" "}
+                        <Link
+                          href={viewerHref.fea(MICRO_TURBOJET_PROJECT_ID)}
+                          className={viewerLinkClass}
+                        >
+                          Ansys FEA
+                        </Link>
+                        . Simulation showed a max Von Mises stress ~622 MPa,
+                        adhering to a safety factor against the ~880+ MPa yield
+                        threshold expected of the Ti-6Al-4V rotor.
                       </p>
                       <ul
                         className="mt-2 flex flex-wrap"

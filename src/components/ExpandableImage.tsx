@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 interface ExpandableImageProps {
   src: string;
@@ -19,6 +20,11 @@ export default function ExpandableImage({
   className = "",
 }: ExpandableImageProps) {
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -55,9 +61,10 @@ export default function ExpandableImage({
         />
       </button>
 
-      {open ? (
+      {mounted && open
+        ? createPortal(
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/90 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-[200] flex items-center justify-center bg-slate-950/90 p-4 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
           aria-label={alt}
@@ -71,20 +78,22 @@ export default function ExpandableImage({
             Close
           </button>
           <div
-            className="relative max-h-[90vh] max-w-[min(92vw,1200px)]"
+            className="relative max-h-[96vh] w-[min(96vw,1600px)]"
             onClick={(e) => e.stopPropagation()}
           >
             <Image
               src={src}
               alt={alt}
-              width={1200}
-              height={800}
-              className="h-auto max-h-[90vh] w-full rounded border border-slate-600 object-contain"
+              width={1600}
+              height={1000}
+              className="h-auto max-h-[96vh] w-full rounded border border-slate-600 object-contain"
               priority
             />
           </div>
-        </div>
-      ) : null}
+        </div>,
+        document.body
+      )
+        : null}
     </>
   );
 }
