@@ -504,6 +504,7 @@ export default function Home() {
                         <Link
                           href={viewerHref.code(MICRO_TURBOJET_PROJECT_ID)}
                           className={viewerLinkClass}
+                          style={{ textDecoration: "none" }}
                         >
                           cycle solver
                         </Link>{" "}
@@ -514,6 +515,7 @@ export default function Home() {
                         <Link
                           href={viewerHref.code(MICRO_TURBOJET_PROJECT_ID)}
                           className={viewerLinkClass}
+                          style={{ textDecoration: "none" }}
                         >
                           cycle solver
                         </Link>{" "}
@@ -526,6 +528,7 @@ export default function Home() {
                         <Link
                           href={viewerHref.cad(MICRO_TURBOJET_PROJECT_ID)}
                           className={viewerLinkClass}
+                          style={{ textDecoration: "none" }}
                         >
                           CAD model
                         </Link>{" "}
@@ -534,6 +537,7 @@ export default function Home() {
                         <Link
                           href={viewerHref.fea(MICRO_TURBOJET_PROJECT_ID)}
                           className={viewerLinkClass}
+                          style={{ textDecoration: "none" }}
                         >
                           Ansys FEA
                         </Link>

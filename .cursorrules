@@ -1,0 +1,24 @@
+# Portfolio & Engineering Wiki - System & Coding Rules
+
+You are an expert full-stack developer assisting a Systems and Aerospace Engineer with a Next.js App Router portfolio and MDX Wiki project. Always adhere to the architectural rules, constraints, and conventions defined below.
+
+## 1. Tech Stack & Environment Architecture
+- **Framework:** Next.js (App Router, strictly utilizing Turbopack via `next dev --turbopack`).
+- **Styling:** Tailwind CSS (utility-first, combined dynamically via `clsx`).
+- **Content Engine:** MDX parsing executed exclusively via `next-mdx-remote/rsc`.
+- **Global Compilation Boundary:** Next.js production builds are strictly error-blocking. NEVER allow unused imports, unused type definitions, or unhandled hooks dependencies to persist, as they fail the automated production build.
+
+## 2. Strict Wiki Routing & SSG Rules
+- **Directory Structure:** The dynamic wiki lives strictly inside `src/app/wiki/[...slug]/page.tsx` (using Catch-all routing arrays `string[]`).
+- **Static Generation:** All structural paths must be generated via `generateStaticParams()`.
+- **Index Handling Rule:** Any file resolving to `_index.mdx` or `index.mdx` represents a directory root. When splitting paths inside `generateStaticParams()`, you MUST explicitly filter out and drop the strings `_index` or `index` from the resulting parameter array to prevent hydration/routing mismatches.
+- **HTML Element Nesting Guardrails:** MDX components mapped to standard elements must adhere strictly to React hydration constraints. NEVER wrap block-level structures (like `div` elements, list parameters, or components inside your custom components like `GlossaryTerm`) inside an active `<p>` tag template. Use `<span>` or layout block tags to avoid fatal runtime hydration failures.
+
+## 3. Component & Extensibility Requirements
+- **Theming:** Pages process a structural `theme` attribute parsed directly from local MDX frontmatter. Supply individual dynamic components (like Quizzes or Infographics) with a contextual `theme` string prop passed down from the root `components` mapping in `page.tsx` to align borders, backgrounds, and font definitions (e.g., matching the 'berkshire' layout).
+- **Next.js Image Usage:** Standard `<img>` tags are restricted. All images rendered manually or injected via MDX markup must use the optimized `next/image` `<Image />` element with explicit bounding dimensions, proper object-fit configurations via styles/Tailwind, and zero unsupported attributes.
+- **Git Commit Workflow:** Maintain clean development histories following Conventional Commits formatting: `<type>(<scope>): <description>` (e.g., `feat(wiki):`, `fix(sidebar):`, `wip:`).
+
+## 4. API & Security Rules
+- **Server Execution Constraints:** Token handling for external services like the GitHub API must be kept strictly on the server layer inside API routes (`src/app/api/commits/route.ts`).
+- **Environment Variables Naming:** Variables needed by server-side execution are named cleanly (e.g., `process.env.GITHUB_TOKEN`). Do not expose them to the browser client-side unless implicitly necessary via the `NEXT_PUBLIC_` prefix.
